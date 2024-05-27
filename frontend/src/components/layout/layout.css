@@ -1,0 +1,28 @@
+.layout-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px 30px;
+}
+
+.header-container{
+    height: 10%;
+}
+
+.layout-header{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.layout-header img{
+    width: 50px;
+    cursor: pointer;
+}
+
+.line{
+    width: 100%;
+    height: 1.5px;
+    background-color:rgb(220, 220, 220);
+}

@@ -1,0 +1,49 @@
+.modal-background{
+    background-color: rgba(49, 49, 49, 0.747) ;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+}
+.delete-modal-container{
+    min-height: 180px;
+    min-width: 300px;
+    background-color: #f7f6f6;
+    position: relative;
+    display: flex;
+    z-index: 60;
+    border-radius: 8px;
+}
+
+.delete-modal-content{
+    padding: 10px 40px;
+    width: 100%;
+    position: relative;
+}
+
+.close-modal-btn{
+    position: absolute;
+    right: 2%; 
+    top: 2%;
+    cursor: pointer;
+    z-index: 120;
+}
+
+.close-modal-btn:hover{
+    color: var(--font-secondary);
+}
+
+.delete-buttons-container{
+    position: absolute;
+    bottom: 10%;
+    right: 40px;
+}
+
+.delete-buttons-container button{
+    margin-left: 10px;
+}

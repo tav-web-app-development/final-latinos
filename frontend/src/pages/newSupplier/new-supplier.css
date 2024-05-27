@@ -1,0 +1,40 @@
+.new-supplier-main{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--background-variaton);
+}
+
+.new-supplier-main h3{
+    text-align: center;
+}
+
+.new-supplier-form{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    gap: 20px;
+}
+
+.new-supplier-form input, select{
+    padding: 10px 14px;
+    border: solid 1px;
+    border-radius: 8px;
+}
+
+.new-supplier-form textarea{
+    padding: 10px 10px 0 14px;
+    border: solid 1px;
+    border-radius: 8px;src:
+}
+
+.quantity-price{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+

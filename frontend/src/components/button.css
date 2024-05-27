@@ -1,0 +1,26 @@
+.btn{
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: solid 1.5px #e1e1e1;
+    background: transparent;
+    text-transform: uppercase;
+    font-size: small;
+    font-weight: 500;
+    cursor: pointer;
+    color: inherit;
+}
+
+.light-btn:hover{
+    background-color: var(--background-secondary);
+    color: #f7f6f6;
+}
+
+.dark-btn{
+    background-color: var(--background-secondary);
+    color: #f7f6f6;
+}
+
+.dark-btn:hover{
+    background-color:#f7f6f6 ;
+    color: var(--font-primary);
+}

@@ -1,0 +1,46 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+  
+  background-color: #f7f6f6;
+  color: var(--font-primary);;
+
+  
+   /* VARIABLES */
+   --background-variaton: #e0e1dd;
+   --background-secondary: #f07167; 
+   --font-primary: #484848;
+   --font-secondary: #f07167;
+}
+
+a{
+  text-decoration: none;
+  color: var(--font-primary);
+}
+
+a:visited{
+  color: var(--font-primary);
+}
+
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+.card{
+  padding: 30px 45px;
+  background-color: #f7f6f6;
+  border-radius: 8px;
+  font-family: inherit;
+}
+
+
+

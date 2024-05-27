@@ -1,0 +1,33 @@
+.tools-container{
+    margin-top: 20px;
+    height: 15%;
+}
+
+.search-bar{
+    height: 30px;
+    border-radius: 8px;
+    border: solid 1.5px #e1e1e1;
+    background: none;
+    width: 300px;
+    padding: 2px 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.search-bar input{
+    width: 90%;
+    background: none;
+    border: none;
+    height: 100%;
+    outline: none;
+}
+
+.buttons-container{
+    display: flex;
+    justify-content: space-between;
+}
+
+.buttons-container Link{
+    margin-left: 10px;
+}

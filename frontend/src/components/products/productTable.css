@@ -1,0 +1,32 @@
+.products-table{
+    border-spacing: 0;
+    width: 100%;
+}
+
+.products-table th{
+    border-top: solid 1px #e1e1e1;
+}
+
+.products-table th, td{
+    padding: 10px 8px;
+    border-bottom: solid 1px #e1e1e1;
+}
+
+.product:hover{
+    background-color: var(--background-variaton);
+}
+
+.action-btns{
+    text-align: center;
+}
+
+.action-icon{
+    padding-left: 5px;
+}
+
+.action-icon:hover{
+    color: var(--font-secondary);
+    cursor: pointer;
+}
+
+
