@@ -1,7 +1,9 @@
 require("dotenv").config();
 const port = process.env.PORT ?? 3000;
+const { createTables } = require("./database/db");
 const app = require("./src/App");
 const { Client } = require('pg');
+
 
 
 //Conexion to DB
@@ -13,16 +15,20 @@ const client = new Client({
   port: process.env.DB_PORT,
 });
 
-client.connect();
-
-client.query('SELECT NOW()', (err, res) => {
-  if (err) {
-      console.error(err);
-  } else {
-      console.log('Connection successful:', res.rows);
-  }
-  client.end();
-});
+client.connect()
+  .then(() => {
+    console.log('Connected to PostgreSQL');
+    return client.query(createTables);
+  })
+  .then(() => {
+    console.log('Tables created successfully');
+  })
+  .catch(err => {
+    console.error('Error executing query', err.stack);
+  })
+  .finally(() => {
+    client.end();
+  });
 
 
 app.listen(port, () => {

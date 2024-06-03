@@ -1,4 +1,4 @@
-
+export const createTables = `
 DROP TABLE IF EXISTS Suppliers;
 DROP TABLE IF EXISTS Categories;
 DROP TABLE IF EXISTS Products;
@@ -30,3 +30,4 @@ CREATE TABLE Products (
     FOREIGN KEY (sup_id) REFERENCES Suppliers (supp_id) ON DELETE CASCADE,
     FOREIGN KEY (cat_id) REFERENCES Categories (category_id) ON DELETE CASCADE
 );
+`
