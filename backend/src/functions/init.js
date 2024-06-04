@@ -1,5 +1,3 @@
-const createTable = require("../../database/db");
-
 // require("dotenv").config();
 // const fs = require("fs");
 // const db = require('better-sqlite3')(process.env.DB_SOURCE, {});

@@ -1,7 +1,4 @@
 const createTable = `-- Drop tables if they exist to ensure a clean slate
-DROP TABLE IF EXISTS Products;
-DROP TABLE IF EXISTS Suppliers;
-DROP TABLE IF EXISTS Categories;
 
 -- Create Suppliers table
 CREATE TABLE Suppliers (
