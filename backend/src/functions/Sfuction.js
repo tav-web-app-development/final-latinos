@@ -1,63 +1,51 @@
-const { db } = require("./init");
+const { client } = require("../../server");
 
 async function addData(supplier) {
-  if (
-    !supplier ||
-    typeof supplier !== "object" ||
-    Object.keys(supplier).length === 0
-  ) {
-    console.error(
-      "Invalid input: supplier data is missing, not an object, or empty."
-    );
+  if (!supplier || typeof supplier !== "object" || Object.keys(supplier).length === 0) {
+    console.error("Invalid input: supplier data is missing, not an object, or empty.");
     return undefined;
   }
-  const preparedSuppliersData = [
-    supplier.name,
-    supplier.email,
-    supplier.contact,
-  ];
-  const stmnt = db.prepare(
-    "INSERT INTO Suppliers(supp_name,supp_email,supp_contact) VALUES (?,?,?)"
-  );
-
+  const { name, email, contact } = supplier;
   try {
-    const info = await stmnt.run(preparedSuppliersData);
-    return info;
-  } catch (err) {
-    console.error(
-      "[data.supplier.addData] Unable to add employees in Suppliers table",
-      err.message
+    const result = await client.query(
+      "INSERT INTO Suppliers(supp_name, supp_email, supp_contact) VALUES ($1, $2, $3)",
+      [name, email, contact]
     );
+    return result;
+  } catch (error) {
+    console.error("[data.supplier.addData] Unable to add employees in Suppliers table:", error.message);
     return undefined;
   }
 }
 
 async function getAllSuppliers() {
-  const stmnt = db.prepare("SELECT * FROM Suppliers");
-  const info = await stmnt.all();
-  return info;
+  try {
+    const result = await client.query("SELECT * FROM Suppliers");
+    return result.rows;
+  } catch (error) {
+    console.error("[data.suppliers.getAllSuppliers] Error:", error.message);
+    return [];
+  }
 }
 
 async function getSupplierById(pid) {
-  const stmnt = db.prepare("SELECT * FROM Suppliers WHERE supp_id= ? ");
-  const info = await stmnt.get(pid);
-  return info;
+  try {
+    const result = await client.query("SELECT * FROM Suppliers WHERE supp_id = $1", [pid]);
+    return result.rows[0];
+  } catch (error) {
+    console.error("[data.suppliers.getSupplierById] Error:", error.message);
+    return undefined;
+  }
 }
 
 async function deleteSupplierById(pid) {
-  return new Promise((resolve, reject) => {
-    const stmnt = db.prepare("DELETE FROM Suppliers WHERE supp_id= ?");
-    try {
-      stmnt.run(pid);
-      resolve(true);
-    } catch (err) {
-      console.error(
-        "[data.suppliers.deleteSupplierById] Unable to delete supplier from the Suppliers table",
-        err
-      );
-      reject(err);
-    }
-  });
+  try {
+    await client.query("DELETE FROM Suppliers WHERE supp_id = $1", [pid]);
+    return true;
+  } catch (error) {
+    console.error("[data.suppliers.deleteSupplierById] Unable to delete supplier from the Suppliers table:", error.message);
+    return false;
+  }
 }
 
 module.exports = {

@@ -1,49 +1,46 @@
-const product = require("../data/Products");
-const { db } = require("./init");
+const { client } = require("../../server");
 
 async function addData(category_name) {
- 
-  const stmnt = db.prepare(
-    "INSERT INTO Categories(category_name) VALUES (?)"
-  );
   try {
-    const info = await stmnt.run(category_name);
-    return info;
-  } catch (err) {
-    console.error(
-      "data.categories.addData] Unable to add Category",
-      err.message
+    const result = await client.query(
+      "INSERT INTO Categories(category_name) VALUES ($1)",
+      [category_name]
     );
+    return result;
+  } catch (error) {
+    console.error("[data.categories.addData] Unable to add Category:", error.message);
     return undefined;
   }
 }
 
 async function getAllCategories() {
-  const stmnt = db.prepare("SELECT * FROM Categories ");
-  const info = await stmnt.all();
-  return info;
+  try {
+    const result = await client.query("SELECT * FROM Categories");
+    return result.rows;
+  } catch (error) {
+    console.error("[data.categories.getAllCategories] Error:", error.message);
+    return [];
+  }
 }
 
 async function getCategoryById(pid) {
-  const stmnt = db.prepare("SELECT * FROM Categories WHERE category_id=? ");
-  const info = stmnt.get(pid);
-  return info;
+  try {
+    const result = await client.query("SELECT * FROM Categories WHERE category_id = $1", [pid]);
+    return result.rows[0];
+  } catch (error) {
+    console.error("[data.categories.getCategoryById] Error:", error.message);
+    return undefined;
+  }
 }
 
 async function deleteById(pid) {
-  return new Promise((resolve, reject) => {
-    const stmnt = db.prepare("DELETE FROM Categories WHERE category_id= ?");
-    try {
-      stmnt.run(pid);
-      resolve(true);
-    } catch (err) {
-      console.error(
-        "[data.category.deleteById] Unable to delete cateogry from the Categories table",
-        err
-      );
-      reject(err);
-    }
-  });
+  try {
+    await client.query("DELETE FROM Categories WHERE category_id = $1", [pid]);
+    return true;
+  } catch (error) {
+    console.error("[data.categories.deleteById] Unable to delete category from the Categories table:", error.message);
+    return false;
+  }
 }
 
 module.exports = {

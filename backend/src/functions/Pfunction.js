@@ -1,36 +1,38 @@
-const {db} = require("./init");
+const { client } = require("../../server");
+
+
 
 async function getAllProducts() {
-  const stmnt = db.prepare(`
-  SELECT 
-    Products.product_id, 
-    Products.product_name,
-    Products.SKU,
-    Products.product_desc,
-    Products.cat_id,
-    Products.sup_id,
-    Categories.category_name, 
-    Suppliers.supp_name,
-    Products.quantity,
-    Products.price
-  FROM Products
-  JOIN Categories ON Products.cat_id = Categories.category_id
-  JOIN Suppliers ON Products.sup_id = Suppliers.supp_id
-`);
-  const info = await stmnt.all();
-  return info;
+  try {
+    const result = await client.query(`
+      SELECT 
+        Products.product_id, 
+        Products.product_name,
+        Products.SKU,
+        Products.product_desc,
+        Products.cat_id,
+        Products.sup_id,
+        Categories.category_name, 
+        Suppliers.supp_name,
+        Products.quantity,
+        Products.price
+      FROM Products
+      JOIN Categories ON Products.cat_id = Categories.category_id
+      JOIN Suppliers ON Products.sup_id = Suppliers.supp_id
+    `);
+    return result.rows;
+  } catch (error) {
+    console.error("[data.products.getAllProducts] Error:", error.message);
+    return [];
+  }
 }
 
 async function getProductById(pid) {
-  const stmnt = db.prepare("SELECT * FROM Products WHERE product_id=? ");
   try {
-    const info = await stmnt.get(pid);
-    return info
+    const result = await client.query("SELECT * FROM Products WHERE product_id = $1", [pid]);
+    return result.rows[0];
   } catch (error) {
-    console.error(
-      "[data.products.getProductById] Product nor found",
-      err.message
-    );
+    console.error("[data.products.getProductById] Error:", error.message);
     return undefined;
   }
   
@@ -38,83 +40,42 @@ async function getProductById(pid) {
 }
 
 async function addData(productData) {
-  if (
-    !productData ||
-    typeof productData !== "object" ||
-    Object.keys(productData).length === 0
-  ) {
-    console.error(
-      "Invalid input: productData is missing, not an object, or empty."
-    );
-    return undefined;
-  }
-
-  const preparedProduct = [
-    productData.product_name,
-    productData.SKU,
-    productData.cat_id,
-    productData.sup_id,
-    productData.product_desc,
-    parseInt(productData.quantity, 10),
-    productData.price,
-  ];
-
-  const stmnt = db.prepare(
-    "INSERT INTO Products (product_name, SKU, cat_id, sup_id, product_desc, quantity, price) VALUES (?, ?, ?, ?, ?, ?, ?)"
-  );
-
+  
+  const { product_name, SKU, cat_id, sup_id, product_desc, quantity, price } = productData;
   try {
-    const info = await stmnt.run(preparedProduct);
-    return info;
-  } catch (err) {
-    console.error(
-      "[data.products.insertNewProduct] Unable to insert new product to the table",
-      err.message
+    const result = await client.query(
+      "INSERT INTO Products (product_name, SKU, cat_id, sup_id, product_desc, quantity, price) VALUES ($1, $2, $3, $4, $5, $6, $7)",
+      [product_name, SKU, cat_id, sup_id, product_desc, quantity, price]
     );
+    return result;
+  } catch (error) {
+    console.error("[data.products.addData] Error:", error.message);
     return undefined;
   }
 }
 
 async function deleteById(pid) {
-  return new Promise((resolve, reject) => {
-    const stmnt = db.prepare("DELETE FROM Products WHERE product_id = ?");
-    try {
-      stmnt.run(pid);
-      resolve(true);
-    } catch (err) {
-      console.error(
-        "[data.product.deleteSupplierById] Unable to delete product from the Procuts table",
-        err
-      );
-      reject(err);
-      
-    }
-  });
+  try {
+    await client.query("DELETE FROM Products WHERE product_id = $1", [pid]);
+    return true;
+  } catch (error) {
+    console.error("[data.products.deleteById] Error:", error.message);
+    return false;
+  }
 }
 
 async function updateProductById(pid, newData) {
   
-  const { product_name, SKU, cat_id, sup_id, product_desc, quantity, price } = newData
-  const stmnt = db.prepare(`UPDATE Products SET product_name = ?, SKU = ?, cat_id = ?, sup_id = ?, product_desc = ?, quantity = ?, price = ? WHERE product_id = ?`);
-
+  const { product_name, SKU, cat_id, sup_id, product_desc, quantity, price } = newData;
   try {
-      stmnt.run(
-        product_name,
-        SKU,
-        cat_id,
-        sup_id,
-        product_desc,
-        quantity,
-        price,
-        pid
-      );
-      return {message: 'Product updated succesfuly'}
-  } catch (err) {
-      console.error(
-        "[data.product.updateProductById] Unable to update product in the Products table",
-        err
-      );
-      return {message: 'Unable to update product'}
+    await client.query(
+      "UPDATE Products SET product_name = $1, SKU = $2, cat_id = $3, sup_id = $4, product_desc = $5, quantity = $6, price = $7 WHERE product_id = $8",
+      [product_name, SKU, cat_id, sup_id, product_desc, quantity, price, pid]
+    );
+    return { message: "Product updated successfully" };
+  } catch (error) {
+    console.error("[data.products.updateProductById] Error:", error.message);
+    return { message: "Unable to update product" };
   }
 
 }

@@ -34,3 +34,5 @@ client.connect()
 app.listen(port, () => {
   console.log(`app running at http://localhost:${port}`);
 });
+
+module.exports = { client };
