@@ -1,4 +1,5 @@
-const { client } = require("../../server");
+const client = require("../../server");
+
 
 async function addData(category_name) {
   try {

@@ -1,4 +1,5 @@
-const { client } = require("../../server");
+const client = require("../../server");
+
 
 async function addData(supplier) {
   if (!supplier || typeof supplier !== "object" || Object.keys(supplier).length === 0) {

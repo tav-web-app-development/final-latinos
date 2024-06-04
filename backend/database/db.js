@@ -1,8 +1,4 @@
 const createTables = `
-DROP TABLE IF EXISTS Suppliers;
-DROP TABLE IF EXISTS Categories;
-DROP TABLE IF EXISTS Products;
-
 
 CREATE TABLE Suppliers (
     supp_id SERIAL PRIMARY KEY,
