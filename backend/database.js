@@ -38,7 +38,7 @@ const { Client } = require("pg");
 
 const client = new Client({
   connectionString:
-    "postgres://sebastian_12:TUyquMzARc7ly23aRP1LmR8DNaRwxAnI@dpg-cpf4anrtg9os73b7bfng-a.ohio-postgres.render.com/main_9tbv",
+    "postgres://sebastian_12:TUyquMzARc7ly23aRP1LmR8DNaRwxAnI@dpg-cpf4anrtg9os73b7bfng-a/main_9tbv",
   ssl: { rejectUnauthorized: false },
 });
 
